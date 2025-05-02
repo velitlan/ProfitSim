@@ -20,13 +20,15 @@ def berechnen():
         stückzahlen = list(range(0, 1001, 50))
         gewinne = [gewinn_berechnen(s, fixkosten, variable_kosten, preis) for s in stückzahlen]
 
-        plt.plot(stückzahlen, gewinne)
-        plt.axhline(0, color='red', linestyle='--')
-        plt.axvline(bep, color='green', linestyle='--')
+        plt.plot(stückzahlen, gewinne, label='Gewinn')
+        plt.axhline(0, color='red', linestyle='--', label='Gewinn = 0')
+        plt.axvline(bep, color='green', linestyle='--', label='Break-Even-Punkt')
         plt.title("Gewinnsimulation")
         plt.xlabel("Stückzahl")
         plt.ylabel("Gewinn (€)")
         plt.grid(True)
+        plt.legend()
+        plt.tight_layout()
         plt.show()
 
     except ValueError:
@@ -36,14 +38,23 @@ def berechnen():
 root = tk.Tk()
 root.title("Kostenanalyse-Tool")
 
-tk.Label(root, text="Fixkosten eingeben:").pack()
-entry_fixkosten = tk.Entry(root)
-entry_fixkosten.pack()
-tk.Label(root, text="Variable Kosten pro Stück:").pack()
-entry_variable_kosten = tk.Entry(root)
-entry_variable_kosten.pack()
-tk.Label(root, text="Verkaufspreis pro Stück:").pack()
-entry_preis = tk.Entry(root)
-entry_preis.pack()
-tk.Button(root, text="Berechnen", command=berechnen).pack()
+frame = tk.Frame(root, padx=10, pady=10)
+frame.pack()
+
+#Eingabefelder
+tk.Label(frame, text="Fixkosten (€):").grid(row=0, column=0, sticky="e", pady=5)
+entry_fixkosten = tk.Entry(frame, width=20)
+entry_fixkosten.grid(row=0, column=1, pady=5)
+
+tk.Label(frame, text="Variable Kosten/Stück (€):").grid(row=1, column=0, sticky="e", pady=5)
+entry_variable_kosten = tk.Entry(frame, width=20)
+entry_variable_kosten.grid(row=1, column=1, pady=5)
+
+tk.Label(frame, text="Verkaufspreis/Stück (€):").grid(row=2, column=0, sticky="e", pady=5)
+entry_preis = tk.Entry(frame, width=20)
+entry_preis.grid(row=2, column=1, pady=5)
+
+# Berechnen-Button
+tk.Button(frame, text="Berechnen", command=berechnen, width=20, bg="lightblue").grid(row=3, column=0, columnspan=2, pady=10)
+
 root.mainloop()
